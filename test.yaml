@@ -351,4 +351,66 @@ spec:
   sessionAffinity: None
 status:
   loadBalancer: {}
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  annotations:
+    openshift.io/host.generated: 'true'
+  selfLink: /apis/route.openshift.io/v1/namespaces/default/routes/one
+  resourceVersion: '296084'
+  name: one
+  uid: f109cd5b-b74d-43c5-9440-8f4efe9cd6ff
+  creationTimestamp: '2020-11-10T15:36:28Z'
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: route.openshift.io/v1
+      time: '2020-11-10T15:36:28Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:labels':
+            .: {}
+            'f:app': {}
+        'f:spec':
+          'f:path': {}
+          'f:port':
+            .: {}
+            'f:targetPort': {}
+          'f:to':
+            'f:kind': {}
+            'f:name': {}
+            'f:weight': {}
+          'f:wildcardPolicy': {}
+    - manager: openshift-router
+      operation: Update
+      apiVersion: route.openshift.io/v1
+      time: '2020-11-10T15:36:29Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:ingress': {}
+  namespace: default
+  labels:
+    app: book-store
+spec:
+  path: /books
+  to:
+    kind: Service
+    name: book-store
+    weight: 100
+  port:
+    targetPort: elb-port
+  wildcardPolicy: None
+status:
+  ingress:
+    - host: one-default.2886795284-80-kota02.environments.katacoda.com
+      routerName: default
+      conditions:
+        - type: Admitted
+          status: 'True'
+          lastTransitionTime: '2020-11-10T15:36:29Z'
+      wildcardPolicy: None
+      routerCanonicalHostname: apps-crc.testing
 
