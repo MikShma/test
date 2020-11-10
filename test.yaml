@@ -1,0 +1,469 @@
+- name: one  
+  kind: Deployment
+  apiVersion: apps/v1
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: '1'
+    selfLink: /apis/apps/v1/namespaces/default/deployments/mongodb-deployment
+    resourceVersion: '18231096'
+    name: mongodb-deployment
+    uid: 263a6903-5d49-4396-9182-2d98f2bd9143
+    creationTimestamp: '2020-10-27T09:20:44Z'
+    generation: 1
+    managedFields:
+      - manager: Swagger-Codegen
+        operation: Update
+        apiVersion: apps/v1
+        time: '2020-10-27T09:20:44Z'
+        fieldsType: FieldsV1
+        fieldsV1:
+          'f:metadata':
+            'f:ownerReferences':
+              .: {}
+              'k:{"uid":"c0ffc5c7-6766-4470-9da3-1a8603832652"}':
+                .: {}
+                'f:apiVersion': {}
+                'f:kind': {}
+                'f:name': {}
+                'f:uid': {}
+          'f:spec':
+            'f:progressDeadlineSeconds': {}
+            'f:replicas': {}
+            'f:revisionHistoryLimit': {}
+            'f:selector':
+              'f:matchLabels':
+                .: {}
+                'f:app': {}
+            'f:strategy':
+              'f:rollingUpdate':
+                .: {}
+                'f:maxSurge': {}
+                'f:maxUnavailable': {}
+              'f:type': {}
+            'f:template':
+              'f:metadata':
+                'f:labels':
+                  .: {}
+                  'f:app': {}
+              'f:spec':
+                'f:containers':
+                  'k:{"name":"mongodb"}':
+                    'f:image': {}
+                    'f:terminationMessagePolicy': {}
+                    .: {}
+                    'f:resources': {}
+                    'f:readinessProbe':
+                      .: {}
+                      'f:failureThreshold': {}
+                      'f:initialDelaySeconds': {}
+                      'f:periodSeconds': {}
+                      'f:successThreshold': {}
+                      'f:tcpSocket':
+                        .: {}
+                        'f:port': {}
+                      'f:timeoutSeconds': {}
+                    'f:terminationMessagePath': {}
+                    'f:imagePullPolicy': {}
+                    'f:ports':
+                      .: {}
+                      'k:{"containerPort":27017,"protocol":"TCP"}':
+                        .: {}
+                        'f:containerPort': {}
+                        'f:protocol': {}
+                    'f:name': {}
+                'f:dnsPolicy': {}
+                'f:restartPolicy': {}
+                'f:schedulerName': {}
+                'f:securityContext': {}
+                'f:terminationGracePeriodSeconds': {}
+      - manager: kube-controller-manager
+        operation: Update
+        apiVersion: apps/v1
+        time: '2020-10-27T09:21:12Z'
+        fieldsType: FieldsV1
+        fieldsV1:
+          'f:metadata':
+            'f:annotations':
+              .: {}
+              'f:deployment.kubernetes.io/revision': {}
+          'f:status':
+            'f:availableReplicas': {}
+            'f:conditions':
+              .: {}
+              'k:{"type":"Available"}':
+                .: {}
+                'f:lastTransitionTime': {}
+                'f:lastUpdateTime': {}
+                'f:message': {}
+                'f:reason': {}
+                'f:status': {}
+                'f:type': {}
+              'k:{"type":"Progressing"}':
+                .: {}
+                'f:lastTransitionTime': {}
+                'f:lastUpdateTime': {}
+                'f:message': {}
+                'f:reason': {}
+                'f:status': {}
+                'f:type': {}
+            'f:observedGeneration': {}
+            'f:readyReplicas': {}
+            'f:replicas': {}
+            'f:updatedReplicas': {}
+    namespace: default
+    ownerReferences:
+      - apiVersion: mshmatko.com/v1alpha1
+        kind: BookStore
+        name: example-bookstore
+        uid: c0ffc5c7-6766-4470-9da3-1a8603832652
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: book-store-mongodb
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: book-store-mongodb
+      spec:
+        containers:
+          - name: mongodb
+            image: 'mongo:latest'
+            ports:
+              - containerPort: 27017
+                protocol: TCP
+            resources: {}
+            readinessProbe:
+              tcpSocket:
+                port: 27017
+              initialDelaySeconds: 15
+              timeoutSeconds: 1
+              periodSeconds: 10
+              successThreshold: 1
+              failureThreshold: 3
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+        restartPolicy: Always
+        terminationGracePeriodSeconds: 30
+        dnsPolicy: ClusterFirst
+        securityContext: {}
+        schedulerName: default-scheduler
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 25%
+        maxSurge: 25%
+    revisionHistoryLimit: 10
+    progressDeadlineSeconds: 600
+  status:
+    observedGeneration: 1
+    replicas: 1
+    updatedReplicas: 1
+    readyReplicas: 1
+    availableReplicas: 1
+    conditions:
+      - type: Available
+        status: 'True'
+        lastUpdateTime: '2020-10-27T09:21:12Z'
+        lastTransitionTime: '2020-10-27T09:21:12Z'
+        reason: MinimumReplicasAvailable
+        message: Deployment has minimum availability.
+      - type: Progressing
+        status: 'True'
+        lastUpdateTime: '2020-10-27T09:21:12Z'
+        lastTransitionTime: '2020-10-27T09:20:44Z'
+        reason: NewReplicaSetAvailable
+        message: ReplicaSet "mongodb-deployment-5d6db4f745" has successfully progressed.
+  
+- name: two  
+  kind: Service
+  apiVersion: v1
+  metadata:
+    selfLink: /api/v1/namespaces/default/services/mongodb-service
+    resourceVersion: '301752'
+    name: mongodb-service
+    uid: 49e5aae6-e983-48ff-8620-bf4c88387ac6
+    creationTimestamp: '2020-11-09T14:55:03Z'
+    managedFields:
+      - manager: Mozilla
+        operation: Update
+        apiVersion: v1
+        time: '2020-11-09T15:11:57Z'
+        fieldsType: FieldsV1
+        fieldsV1:
+          'f:metadata':
+            'f:labels':
+              .: {}
+              'f:app': {}
+            'f:ownerReferences':
+              .: {}
+              'k:{"uid":"c0ffc5c7-6766-4470-9da3-1a8603832652"}':
+                .: {}
+                'f:apiVersion': {}
+                'f:kind': {}
+                'f:name': {}
+                'f:uid': {}
+          'f:spec':
+            'f:clusterIP': {}
+            'f:ports':
+              .: {}
+              'k:{"port":27017,"protocol":"TCP"}':
+                .: {}
+                'f:name': {}
+                'f:port': {}
+                'f:protocol': {}
+                'f:targetPort': {}
+            'f:selector':
+              .: {}
+              'f:app': {}
+            'f:sessionAffinity': {}
+            'f:type': {}
+    namespace: default
+    ownerReferences:
+      - apiVersion: mshmatko.com/v1alpha1
+        kind: BookStore
+        name: example-bookstore
+        uid: c0ffc5c7-6766-4470-9da3-1a8603832652
+    labels:
+      app: book-store-mongodb
+  spec:
+    ports:
+      - name: elb-port2
+        protocol: TCP
+        port: 27017
+        targetPort: 27017
+    selector:
+      app: book-store-mongodb
+    clusterIP: 172.25.213.162
+    type: ClusterIP
+    sessionAffinity: None
+  status:
+    loadBalancer: {}
+- name: three  
+  kind: Deployment
+  apiVersion: apps/v1
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: '1'
+    selfLink: /apis/apps/v1/namespaces/default/deployments/book-store
+    resourceVersion: '18231127'
+    name: book-store
+    uid: d3441c26-aef9-4e01-815f-b29a7ba7fd22
+    creationTimestamp: '2020-10-27T09:21:08Z'
+    generation: 1
+    managedFields:
+      - manager: Swagger-Codegen
+        operation: Update
+        apiVersion: apps/v1
+        time: '2020-10-27T09:21:08Z'
+        fieldsType: FieldsV1
+        fieldsV1:
+          'f:metadata':
+            'f:ownerReferences':
+              .: {}
+              'k:{"uid":"c0ffc5c7-6766-4470-9da3-1a8603832652"}':
+                .: {}
+                'f:apiVersion': {}
+                'f:kind': {}
+                'f:name': {}
+                'f:uid': {}
+          'f:spec':
+            'f:progressDeadlineSeconds': {}
+            'f:replicas': {}
+            'f:revisionHistoryLimit': {}
+            'f:selector':
+              'f:matchLabels':
+                .: {}
+                'f:app': {}
+            'f:strategy':
+              'f:rollingUpdate':
+                .: {}
+                'f:maxSurge': {}
+                'f:maxUnavailable': {}
+              'f:type': {}
+            'f:template':
+              'f:metadata':
+                'f:labels':
+                  .: {}
+                  'f:app': {}
+              'f:spec':
+                'f:containers':
+                  'k:{"name":"book-store"}':
+                    .: {}
+                    'f:image': {}
+                    'f:imagePullPolicy': {}
+                    'f:name': {}
+                    'f:ports':
+                      .: {}
+                      'k:{"containerPort":3000,"protocol":"TCP"}':
+                        .: {}
+                        'f:containerPort': {}
+                        'f:protocol': {}
+                    'f:resources': {}
+                    'f:terminationMessagePath': {}
+                    'f:terminationMessagePolicy': {}
+                'f:dnsPolicy': {}
+                'f:restartPolicy': {}
+                'f:schedulerName': {}
+                'f:securityContext': {}
+                'f:terminationGracePeriodSeconds': {}
+      - manager: kube-controller-manager
+        operation: Update
+        apiVersion: apps/v1
+        time: '2020-10-27T09:21:21Z'
+        fieldsType: FieldsV1
+        fieldsV1:
+          'f:metadata':
+            'f:annotations':
+              .: {}
+              'f:deployment.kubernetes.io/revision': {}
+          'f:status':
+            'f:availableReplicas': {}
+            'f:conditions':
+              .: {}
+              'k:{"type":"Available"}':
+                .: {}
+                'f:lastTransitionTime': {}
+                'f:lastUpdateTime': {}
+                'f:message': {}
+                'f:reason': {}
+                'f:status': {}
+                'f:type': {}
+              'k:{"type":"Progressing"}':
+                .: {}
+                'f:lastTransitionTime': {}
+                'f:lastUpdateTime': {}
+                'f:message': {}
+                'f:reason': {}
+                'f:status': {}
+                'f:type': {}
+            'f:observedGeneration': {}
+            'f:readyReplicas': {}
+            'f:replicas': {}
+            'f:updatedReplicas': {}
+    namespace: default
+    ownerReferences:
+      - apiVersion: mshmatko.com/v1alpha1
+        kind: BookStore
+        name: example-bookstore
+        uid: c0ffc5c7-6766-4470-9da3-1a8603832652
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: book-store
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: book-store
+      spec:
+        containers:
+          - name: book-store
+            image: 'mshmatko/book-app:v1'
+            ports:
+              - containerPort: 3000
+                protocol: TCP
+            resources: {}
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+        restartPolicy: Always
+        terminationGracePeriodSeconds: 30
+        dnsPolicy: ClusterFirst
+        securityContext: {}
+        schedulerName: default-scheduler
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 25%
+        maxSurge: 25%
+    revisionHistoryLimit: 10
+    progressDeadlineSeconds: 600
+  status:
+    observedGeneration: 1
+    replicas: 1
+    updatedReplicas: 1
+    readyReplicas: 1
+    availableReplicas: 1
+    conditions:
+      - type: Available
+        status: 'True'
+        lastUpdateTime: '2020-10-27T09:21:21Z'
+        lastTransitionTime: '2020-10-27T09:21:21Z'
+        reason: MinimumReplicasAvailable
+        message: Deployment has minimum availability.
+      - type: Progressing
+        status: 'True'
+        lastUpdateTime: '2020-10-27T09:21:21Z'
+        lastTransitionTime: '2020-10-27T09:21:08Z'
+        reason: NewReplicaSetAvailable
+        message: ReplicaSet "book-store-76b9cd6dfd" has successfully progressed.
+  
+  
+- name: four
+  kind: Service
+  apiVersion: v1
+  metadata:
+    selfLink: /api/v1/namespaces/default/services/book-store
+    resourceVersion: '18231136'
+    name: book-store
+    uid: 002f9d55-8bc4-4264-b654-200c75d1f6d6
+    creationTimestamp: '2020-10-27T09:21:23Z'
+    managedFields:
+      - manager: Swagger-Codegen
+        operation: Update
+        apiVersion: v1
+        time: '2020-10-27T09:21:23Z'
+        fieldsType: FieldsV1
+        fieldsV1:
+          'f:metadata':
+            'f:labels':
+              .: {}
+              'f:app': {}
+            'f:ownerReferences':
+              .: {}
+              'k:{"uid":"c0ffc5c7-6766-4470-9da3-1a8603832652"}':
+                .: {}
+                'f:apiVersion': {}
+                'f:kind': {}
+                'f:name': {}
+                'f:uid': {}
+          'f:spec':
+            'f:ports':
+              .: {}
+              'k:{"port":80,"protocol":"TCP"}':
+                .: {}
+                'f:name': {}
+                'f:port': {}
+                'f:protocol': {}
+                'f:targetPort': {}
+            'f:selector':
+              .: {}
+              'f:app': {}
+            'f:sessionAffinity': {}
+            'f:type': {}
+    namespace: default
+    ownerReferences:
+      - apiVersion: mshmatko.com/v1alpha1
+        kind: BookStore
+        name: example-bookstore
+        uid: c0ffc5c7-6766-4470-9da3-1a8603832652
+    labels:
+      app: book-store
+  spec:
+    ports:
+      - name: elb-port
+        protocol: TCP
+        port: 80
+        targetPort: 3000
+    selector:
+      app: book-store
+    clusterIP: 172.25.15.148
+    type: ClusterIP
+    sessionAffinity: None
+  status:
+    loadBalancer: {}
+
