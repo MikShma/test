@@ -98,6 +98,7 @@ spec:
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
+  name: book-store
   namespace: default
   labels:
     app: book-store
