@@ -72,12 +72,11 @@ spec:
             - containerPort: 3000
               protocol: TCP
           imagePullPolicy: Always
-	  env:
-	    - name: TEST_MONGO
-	      value: mongodb-service
-	    - name: TEST_TEST
-	      value: test-serv
-      restartPolicy: Always
+	  env:	      
+            - name: TEST_MONGO
+              value:  mongodb-service
+            - name: TEST_TEST
+              value: test-serv
   
 ---
 kind: Service
