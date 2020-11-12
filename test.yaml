@@ -18,9 +18,6 @@ spec:
       containers:
         - name: mongodb
           image: 'mongo:latest'
-          env:
-            - name: TEST_TEST
-              value: test-serv
           ports:
             - containerPort: 27017
               protocol: TCP
@@ -48,57 +45,6 @@ spec:
     app: book-store-mongodb
   clusterIP: 172.25.213.162
   type: ClusterIP
----
-
-kind: Deployment
-apiVersion: apps/v1
-metadata:
-  name: mongodb2
-  namespace: default
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: book-store-mongodb2
-  template:
-    metadata:
-      creationTimestamp: null
-      labels:
-        app: book-store-mongodb2
-    spec:
-      containers:
-        - name: mongodb
-          image: 'mongo:latest'
-          env:
-            - name: TEST_MONGO
-              value:  mongodb-service
-          ports:
-            - containerPort: 27017
-              protocol: TCP
-          readinessProbe:
-            tcpSocket:
-              port: 27017
-          imagePullPolicy: Always
-      restartPolicy: Always
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: test-serv
-  namespace: default
-  labels:
-    app: book-store-mongodb2
-spec:
-  ports:
-    - name: elb-port2
-      protocol: TCP
-      port: 27017
-      targetPort: 27017
-  selector:
-    app: book-store-mongodb2
-  type: ClusterIP
-  
 ---
 kind: Deployment
 apiVersion: apps/v1
