@@ -114,18 +114,18 @@ spec:
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: mongoBK
+  name: mongobk
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mongoBK
+      app: mongobk
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: mongoBK
+        app: mongobk
     spec:
       containers:
         - name: mongobk
@@ -146,10 +146,10 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: mongoBK-serv
+  name: mongobk-serv
   namespace: default
   labels:
-    app: mongoBK
+    app: mongobk
 spec:
   ports:
     - name: elb-port2
@@ -157,5 +157,5 @@ spec:
       port: 27017
       targetPort: 27017
   selector:
-    app: book-store-mongodb2
+    app: mongobk
   type: ClusterIP
