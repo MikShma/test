@@ -109,4 +109,53 @@ spec:
     weight: 100
   port:
     targetPort: elb-port
+    
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: mongoBK
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongoBK
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: mongoBK
+    spec:
+      containers:
+        - name: mongobk
+          image: 'mshmatko/mongobk:latest'
+          env:
+            - name: MONGO_SERVICE
+              value:  mongodb-service
+          ports:
+            - containerPort: 27017
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: 27017
+          imagePullPolicy: Always
+      restartPolicy: Always
 
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mongoBK-serv
+  namespace: default
+  labels:
+    app: mongoBK
+spec:
+  ports:
+    - name: elb-port2
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
+  selector:
+    app: book-store-mongodb2
+  type: ClusterIP
