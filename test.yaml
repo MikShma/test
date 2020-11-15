@@ -109,6 +109,20 @@ spec:
     weight: 100
   port:
     targetPort: elb-port
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: task-pvc-volume
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: manual
+
 ---
 kind: Service
 apiVersion: v1
@@ -126,3 +140,44 @@ spec:
   selector:
     app: mongobk
   type: ClusterIP
+  
+---
+apiVersion: v1
+kind: CronJob
+metadata:
+  name: example
+  namespace: default
+spec:
+  schedule: '*/5 * * * *'
+  jobTemplate:
+    spec:
+      replicas: 1
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: mongobk
+        spec:
+          volumes:
+            - name: save-path
+              persistentVolumeClaim:
+                claimName: task-pvc-volume
+          containers:
+            - name: mongobk
+              image: 'mshmatko/mongobk:latest'
+              volumeMounts:
+               - mountPath: /backup
+                 name: save-path
+              env:
+                - name: MONGO_SERVICE
+                  value:  mongodb-service
+              ports:
+                - containerPort: 27017
+                  protocol: TCP
+              readinessProbe:
+                tcpSocket:
+                  port: 27017
+              imagePullPolicy: Always
+              command:
+                - "/mongo_backup.sh"
+          restartPolicy: Never
