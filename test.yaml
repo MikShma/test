@@ -148,7 +148,7 @@ metadata:
   name: example
   namespace: default
 spec:
-  schedule: '*/5 * * * *'
+  schedule: '*/2 * * * *'
   jobTemplate:
     spec:
       replicas: 1
