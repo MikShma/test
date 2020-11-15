@@ -109,4 +109,20 @@ spec:
     weight: 100
   port:
     targetPort: elb-port
-    
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mongobk-serv
+  namespace: default
+  labels:
+    app: mongobk
+spec:
+  ports:
+    - name: elb-port2
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
+  selector:
+    app: mongobk
+  type: ClusterIP
