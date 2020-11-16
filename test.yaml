@@ -110,18 +110,6 @@ spec:
   port:
     targetPort: elb-port
 
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: task-pvc-volume
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  storageClassName: manual
 
 ---
 kind: Service
@@ -158,10 +146,6 @@ spec:
           labels:
             app: mongobk
         spec:
-          volumes:
-            - name: save-path
-              persistentVolumeClaim:
-                claimName: task-pvc-volume
           containers:
             - name: mongobk
               image: 'mshmatko/mongobk:latest'
