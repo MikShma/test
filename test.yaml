@@ -180,5 +180,5 @@ spec:
                   port: 27017
               imagePullPolicy: Always
               command:
-                - "chmod 777 /backup && /mongo_backup.sh"
+                - "/mongo_backup.sh"
           restartPolicy: Never
