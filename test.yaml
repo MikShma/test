@@ -165,9 +165,6 @@ spec:
           containers:
             - name: mongobk
               image: 'mshmatko/mongobk:latest'
-              volumeMounts:
-               - mountPath: /backup
-                 name: save-path
               env:
                 - name: MONGO_SERVICE
                   value:  mongodb-service
