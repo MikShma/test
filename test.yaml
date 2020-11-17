@@ -176,7 +176,7 @@ spec:
             app: mongobk
         spec:
           securityContext:
-             runAsUser: 1001
+            privileged: true
           volumes:
             - name: save-path
               persistentVolumeClaim:
