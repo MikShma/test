@@ -128,8 +128,7 @@ spec:
   selector:
     app: mongobk
   type: ClusterIP
--
---
+---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
